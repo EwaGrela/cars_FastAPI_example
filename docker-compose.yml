@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command:  bash -c "uvicorn my_app.main:app --reload --workers 1 --host 0.0.0.0"
+    container_name: cars_api
+    volumes:
+      - .:/cars_api
+    ports:
+      - "8000:8000"
