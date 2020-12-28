@@ -3,3 +3,5 @@ db.sqlite3
 ENV
 __pycache__
 *.db
+
+config.py

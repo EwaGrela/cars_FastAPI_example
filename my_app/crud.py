@@ -41,15 +41,6 @@ def rate_car(db: Session, rate: schemas.Rate):
     return car_to_rate
 
 
-def delete_cars(db: Session):
-    all_cars = db.query(models.Car).all()
-    for car in all_cars:
-        db.delete(car)
-        db.commit()
-        db.flush()
-    db.flush()
-
-
 def get_popular_cars(db: Session):
     popular_cars = db.query(
         models.Car).order_by(

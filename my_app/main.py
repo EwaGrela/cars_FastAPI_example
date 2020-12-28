@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException, Response
 from sqlalchemy.orm import Session
 
 
-from my_app import crud, models, schemas, helpers
+from my_app import crud, models, schemas, helpers, config
 from my_app.database import declarative_base, SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -39,12 +39,6 @@ def car(car_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Such car was not found")
     return car
 
-
-@app.delete("/cars")
-def delete_cars(db: Session = Depends(get_db)):
-    crud.delete_cars(db)
-
-
 @app.delete("/cars/{car_id}", response_model=schemas.Car)
 def delete_car(car_id: int, db: Session = Depends(get_db)):
     car = crud.get_car_by_id(db, car_id)
@@ -64,8 +58,6 @@ def add_car(car: schemas.CarBase, db: Session = Depends(get_db)):
 
     if res:
         crud.create_car(db, car)
-        # this is where sth could be returned
-        # return car
     else:
         raise HTTPException(
             status_code=404,
